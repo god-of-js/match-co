@@ -47,4 +47,9 @@ interface GateWay {
   userIds: string[];
   website: string;
 }
-export { User, Project, ReportRequestData, Report, GateWay };
+
+interface Filters {
+  byProject: boolean;
+  byGateway: boolean;
+}
+export { User, Project, ReportRequestData, Report, GateWay, Filters };

@@ -21,7 +21,9 @@ export default class ReportActions extends Vue {
     this.data.projectId = param.projectId;
     this.projectsTitle = param.name;
     this.getProjectData();
+    projectsModule.setIsFilteredByProduct(true);
   }
+
   setGatewaysData(param: GateWay): void {
     this.data.gatewayId = param.gatewayIds[0];
     this.gatewaysTitle = param.name;

@@ -13,7 +13,6 @@ class GatewaysModule extends VuexModule {
   @Action
   async getGateways(): Promise<void> {
     const gateways = await API.getGateways();
-    console.log(gateways);
     this.setGateways(gateways);
   }
 }

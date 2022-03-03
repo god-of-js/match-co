@@ -4,7 +4,14 @@ import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 
 @Module
 class ProjectsModule extends VuexModule {
-  projects: Project[] | null = null;
+  projects: Project[] = [];
+  isFilteredByProduct = false;
+
+  @Mutation
+  setIsFilteredByProduct(param: boolean) {
+    this.isFilteredByProduct = param;
+  }
+
   @Mutation
   setProjects(param: Project[]) {
     this.projects = param;

@@ -2,6 +2,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { projectsModule } from "@/store/modules/Projects.store";
 import { Project } from "@/types/interfaces";
+import { reportsModule } from "@/store/modules/Reports.store";
 
 @Component({
   name: "AllProjects",
@@ -10,8 +11,21 @@ import { Project } from "@/types/interfaces";
   },
 })
 export default class AllProjects extends Vue {
+  get unfilteredProjects(): Project[] {
+    return projectsModule.projects;
+  }
+  get filteredProjects(): Project[] {
+    const selectedProjectId = reportsModule.report[0].projectId;
+    const projects = projectsModule.projects?.filter(
+      (project) => project.projectId === selectedProjectId
+    );
+    return projects;
+  }
   get projects(): Project[] {
-    return projectsModule.projects as Project[];
+    const projects = projectsModule.isFilteredByProduct
+      ? this.filteredProjects
+      : this.unfilteredProjects;
+    return projects;
   }
   mounted(): void {
     projectsModule.getProjects();
