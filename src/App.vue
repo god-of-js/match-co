@@ -1,27 +1,24 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { mapGetters } from "vuex";
-import { IS_AUTHENTICATED_GETTER } from "@/store/storeVariables.types";
-const TheTopNavigation = () => import("./components/TheTopNavigation.vue");
+import AppTopNavigation from "./components/AppTopNavigation.vue";
+import AppSideBar from "./components/AppSideBar.vue";
 @Component({
   components: {
-    TheTopNavigation,
+    AppTopNavigation,
+    AppSideBar,
   },
-  computed: {
-    ...mapGetters({
-      isAuthenticated: IS_AUTHENTICATED_GETTER,
-    }),
-  },
+  computed: {},
 })
 export default class App extends Vue {}
 </script>
 
 <template>
   <div id="app">
-    <the-top-navigation v-if="isAuthenticated" />
-    <!-- Adding a key to all routes it best practice. it also helps incase there is a route 
-    with dynamic parameters, it helps the route re-render when the fullPath changes.-->
-    <router-view :key="$route.fullPath" />
+    <app-top-navigation />
+    <div class="u-flex">
+      <app-side-bar />
+      <router-view class="router-view" />
+    </div>
   </div>
 </template>
 
@@ -32,11 +29,15 @@ export default class App extends Vue {}
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  background: $base-color;
   overflow: hidden;
 }
-
+.router-view {
+  margin: 0px 20px;
+  width: 100%;
+}
+.ml-6 {
+  margin-left: 20px;
+}
 #nav {
   padding: 30px;
 
@@ -48,5 +49,17 @@ export default class App extends Vue {}
       color: #42b983;
     }
   }
+}
+.u-flex {
+  display: flex;
+}
+.u-items-center {
+  align-items: center;
+}
+.u-justify-between {
+  justify-content: space-between;
+}
+.u-justify-center {
+  justify-content: center;
 }
 </style>

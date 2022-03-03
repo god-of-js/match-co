@@ -5,51 +5,47 @@ import { Component, Vue, Prop } from "vue-property-decorator";
   name: "BaseButton",
 })
 export default class BaseButton extends Vue {
-  @Prop({ default: false }) loading!: boolean;
-  @Prop({ default: false }) disabled!: boolean;
   @Prop({
-    default: "c-base-button",
-    validator: (value) =>
-      ["c-base-button", "c-base-button--transparent"].includes(value),
+    default: "primary",
+    validator: (value) => ["primary", "secondary"].includes(value),
   })
-  styleType!: string;
+  variant!: string;
 }
 </script>
 
 <template>
   <button
     v-on="$listeners"
-    :class="[$style[styleType], disabled ? $style['u-disabled'] : '']"
+    :class="[$style['c-base-button'], $style[`c-base-button--${variant}`]]"
     :disabled="disabled"
   >
-    <slot v-if="!loading" />
-    <span v-else>Loading.... </span>
+    <slot />
   </button>
 </template>
 
 <style lang="scss" module>
 @import "@/styles";
 .c-base-button {
-  width: 100%;
   box-sizing: border-box;
   border-radius: 5px;
-  height: 56px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $pink;
   border: transparent;
   cursor: pointer;
   color: $white;
-}
-.c-base-button--transparent {
-  background: transparent;
-  border: transparent;
-  color: $white;
-  cursor: pointer;
-}
-.u-disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  &--primary {
+    background: $primary;
+    &:hover {
+      background: $primary-a90;
+    }
+  }
+  &--secondary {
+    background: $secondary;
+    &:hover {
+      background: $secondary-a90;
+    }
+  }
 }
 </style>
