@@ -1,10 +1,36 @@
 <script lang="ts">
+import { projectsModule } from "@/store/modules/Projects.store";
+import { reportsModule } from "@/store/modules/Reports.store";
+import { GateWay, Project } from "@/types/interfaces";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
   name: "ReportActions",
 })
-export default class ReportActions extends Vue {}
+export default class ReportActions extends Vue {
+  data = {
+    projectId: "",
+    gatewayId: "",
+  };
+  projectsTitle = "All Projects";
+  gatewaysTitle = "All gateways";
+  get projects(): Project[] {
+    return projectsModule.projects as Project[];
+  }
+  setProjectsData(param: Project): void {
+    this.data.projectId = param.projectId;
+    this.projectsTitle = param.name;
+    this.getProjectData();
+  }
+  setGatewaysData(param: GateWay): void {
+    this.data.gatewayId = param.gatewayIds[0];
+    this.gatewaysTitle = param.name;
+    this.getProjectData();
+  }
+  async getProjectData(): Promise<void> {
+    await reportsModule.getReport(this.data);
+  }
+}
 </script>
 
 <template>
@@ -16,23 +42,29 @@ export default class ReportActions extends Vue {}
       </legend>
     </div>
     <div class="u-flex u-items-center">
-      <base-button
-        ><span>All projects</span>
+      <base-drop-down :dropDownData="projects" @getData="setProjectsData"
+        ><span>{{ projectsTitle }}</span>
         <img src="@/assets/caret-down.svg" alt="caret down" class="ml-6"
-      /></base-button>
-      <base-button class="ml-6"
-        ><span>All gateways</span>
+      /></base-drop-down>
+      <base-drop-down
+        class="ml-6"
+        :dropDownData="projects"
+        @getData="setGatewaysData"
+        ><span>{{ gatewaysTitle }}</span>
         <img src="@/assets/caret-down.svg" alt="caret down" class="ml-6"
-      /></base-button>
-      <base-button class="ml-6"
+      /></base-drop-down>
+      <base-drop-down class="ml-6" :dropDownData="projects"
         ><span>From date</span>
         <img src="@/assets/calendar.svg" alt="caret down" class="ml-6"
-      /></base-button>
-      <base-button class="ml-6"
+      /></base-drop-down>
+      <base-drop-down class="ml-6" :dropDownData="projects"
         ><span>To date</span>
         <img src="@/assets/calendar.svg" alt="caret down" class="ml-6"
-      /></base-button>
-      <base-button class="ml-6" variant="secondary"
+      /></base-drop-down>
+      <base-button
+        class="ml-6"
+        variant="secondary"
+        @click="$emit('generateReport')"
         >Generate report</base-button
       >
     </div>

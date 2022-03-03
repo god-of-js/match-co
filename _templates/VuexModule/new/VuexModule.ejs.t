@@ -1,5 +1,5 @@
 ---
-to: "src/store/modules/<%= h.changeCase.pascal(name)  %>.ts"
+to: "src/store/modules/<%= h.changeCase.pascal(name)  %>.store.ts"
 ---
 import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 
@@ -13,4 +13,4 @@ class <%= h.changeCase.pascal(name)  %>Module extends VuexModule {
 }
 
 import store from "../index";
-export const actorModule = new <%= h.changeCase.pascal(name)  %>Module({ store, name: "<%= h.changeCase.pascal(name)  %>" });
+export const <%= name %>Module = new <%= h.changeCase.pascal(name)  %>Module({ store, name: "<%= h.changeCase.pascal(name)  %>" });

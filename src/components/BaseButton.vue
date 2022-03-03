@@ -17,7 +17,6 @@ export default class BaseButton extends Vue {
   <button
     v-on="$listeners"
     :class="[$style['c-base-button'], $style[`c-base-button--${variant}`]]"
-    :disabled="disabled"
   >
     <slot />
   </button>

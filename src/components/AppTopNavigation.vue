@@ -1,8 +1,22 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
+import { userModule } from "@/store/modules/Users.store";
+import { User } from "@/types/interfaces";
 @Component
-export default class AppTopNavigation extends Vue {}
+export default class AppTopNavigation extends Vue {
+  get user(): User {
+    return userModule.user as User;
+  }
+  get userInitials(): string {
+    return `${this.user?.firstName[0] + this.user?.lastName[0]}`;
+  }
+  get userName(): string {
+    return `${this.user?.firstName + " " + this.user?.lastName}`;
+  }
+  mounted(): void {
+    userModule.getUser();
+  }
+}
 </script>
 
 <template>
@@ -15,9 +29,9 @@ export default class AppTopNavigation extends Vue {}
     </div>
     <div class="u-flex u-items-center">
       <div class="c-app-top-nav__avatar u-flex u-items-center u-justify-center">
-        JD
+        {{ userInitials }}
       </div>
-      <div class="c-app-top-nav__name">John Doe</div>
+      <div class="c-app-top-nav__name">{{ userName }}</div>
     </div>
   </nav>
 </template>
