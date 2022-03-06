@@ -4,7 +4,19 @@ import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 
 @Module
 class GatewaysModule extends VuexModule {
-  gateways: GateWay[] | null = null;
+  gateways: GateWay[] = [];
+  isFilteredByGateway = false;
+  filterGatewayId: string | null = null;
+
+  @Mutation
+  setIsFilteredByGateway(param: boolean) {
+    this.isFilteredByGateway = param;
+  }
+
+  @Mutation
+  setFilterGateWayId(param: string) {
+    this.filterGatewayId = param;
+  }
   @Mutation
   setGateways(param: GateWay[]) {
     this.gateways = param;

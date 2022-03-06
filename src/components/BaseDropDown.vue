@@ -10,9 +10,9 @@ export default class BaseDropDown extends Vue {
   private toggleDropDown(): void {
     this.isDropDownVisible = !this.isDropDownVisible;
   }
-
-  private getId(data: any) {
-    this.$emit("getId", data);
+  private handleClick(data: unknown) {
+    this.$emit("getData", data);
+    this.toggleDropDown();
   }
 }
 </script>
@@ -25,7 +25,7 @@ export default class BaseDropDown extends Vue {
         class="c-base-drop-down__content__item"
         v-for="(data, index) in dropDownData"
         :key="index"
-        @click="$emit('getData', data)"
+        @click="handleClick(data)"
       >
         {{ data.name }}
       </li>

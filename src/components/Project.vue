@@ -1,7 +1,8 @@
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { Project, Report } from "@/types/interfaces";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
+import { Project, ReportRequestData, Transaction } from "@/types/interfaces";
 import { reportsModule } from "@/store/modules/Reports.store";
+import { gatewaysModule } from "@/store/modules/Gateways.store";
 @Component({
   name: "Project",
 })
@@ -9,19 +10,50 @@ export default class ProjectImp extends Vue {
   // Price is not available in the API response.
   @Prop({ default: "10,065 USD" }) price!: string;
   @Prop({}) project!: Project;
-  report: Report = {} as Report;
+  report: Transaction[] = [];
   private showTable = false;
+
+  get reportsWithGateway(): Transaction[] {
+    let gateway;
+    for (let i = 0; i < this.report.length; i++) {
+      gateway = gatewaysModule.gateways.find(
+        (gateway) => gateway.gatewayId === this.report[i].gatewayId
+      );
+      if (gateway) this.report[i].gatewayName = gateway.name;
+    }
+    return this.report;
+  }
+
+  get isFilteredByGateway(): boolean {
+    return gatewaysModule.isFilteredByGateway;
+  }
+
+  get filterGatewayId(): string {
+    return gatewaysModule.filterGatewayId as string;
+  }
+
+  @Watch("filterGatewayId")
+  triggerGetProjectReport(): void {
+    this.getProjectReport();
+  }
+
   private showDetails() {
     this.showTable = !this.showTable;
   }
+
   private async getProjectReport() {
-    this.report = await reportsModule.getReport({
+    const data: ReportRequestData = {
       projectId: this.project.projectId,
-    });
+    };
+    if (this.isFilteredByGateway && this.filterGatewayId)
+      data.gatewayId = this.filterGatewayId;
+    this.report = await reportsModule.getReport(data);
   }
+
   private replaceHyphens(str: string): string {
     return str.replace(/-/g, "/");
   }
+
   mounted(): void {
     this.getProjectReport();
   }
@@ -40,11 +72,13 @@ export default class ProjectImp extends Vue {
     <table v-if="showTable" class="c-project__transaction-table">
       <tr>
         <th>Date</th>
+        <th>Gateway</th>
         <th>Transaction ID</th>
         <th>Amount</th>
       </tr>
-      <tr v-for="(transaction, index) in report" :key="index">
+      <tr v-for="(transaction, index) in reportsWithGateway" :key="index">
         <td>{{ replaceHyphens(transaction.created) }}</td>
+        <td>{{ transaction.gatewayName }}</td>
         <td>{{ transaction.paymentId }}</td>
         <td>{{ transaction.amount }}</td>
       </tr>

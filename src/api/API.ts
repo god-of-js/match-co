@@ -3,7 +3,7 @@ import {
   Project,
   User,
   ReportRequestData,
-  Report,
+  Transaction,
   GateWay,
 } from "@/types/interfaces";
 export default class API {
@@ -14,9 +14,9 @@ export default class API {
     return AxiosInstance.get("/projects").then(({ data }) => data.data);
   }
   getGateways(): Promise<GateWay[]> {
-    return AxiosInstance.get("/projects").then(({ data }) => data.data);
+    return AxiosInstance.get("/gateways").then(({ data }) => data.data);
   }
-  getReports(data: ReportRequestData): Promise<Report> {
+  getReports(data: ReportRequestData): Promise<Transaction[]> {
     return AxiosInstance.post("/report", data).then(({ data }) => data.data);
   }
 }

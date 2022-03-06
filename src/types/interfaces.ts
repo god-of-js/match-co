@@ -25,10 +25,11 @@ interface ReportRequestData {
   gatewayId?: string;
 }
 
-interface Report {
+interface Transaction {
   amount: number;
   created: string;
   gatewayId: string;
+  gatewayName: string;
   modified: string;
   paymentId: string;
   projectId: string;
@@ -37,7 +38,7 @@ interface Report {
 
 interface GateWay {
   description: string;
-  gatewayIds: string[];
+  gatewayId: string;
   image: string;
   industry: string;
   name: string;
@@ -52,4 +53,4 @@ interface Filters {
   byProject: boolean;
   byGateway: boolean;
 }
-export { User, Project, ReportRequestData, Report, GateWay, Filters };
+export { User, Project, ReportRequestData, Transaction, GateWay, Filters };
