@@ -6,16 +6,27 @@ import API from "@/api";
 @Module
 class ReportsModule extends VuexModule {
   report: Transaction[] = [];
+  toFilter: string | null = null;
+  fromFilter: string | null = null;
 
   @Mutation
-  private setReport(param: Transaction[]): void {
+  setReport(param: Transaction[]): void {
     this.report = param;
+  }
+
+  @Mutation
+  setFromFilter(param: string): void {
+    this.fromFilter = param;
+  }
+
+  @Mutation
+  setToFilter(param: string): void {
+    this.toFilter = param;
   }
 
   @Action
   async getReport(data: ReportRequestData): Promise<Transaction[]> {
     const report = await API.getReports(data);
-    console.log(report);
     return report;
   }
 }

@@ -3,6 +3,7 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import { Project, ReportRequestData, Transaction } from "@/types/interfaces";
 import { reportsModule } from "@/store/modules/Reports.store";
 import { gatewaysModule } from "@/store/modules/Gateways.store";
+import { projectsModule } from "@/store/modules/Projects.store";
 @Component({
   name: "Project",
 })
@@ -32,7 +33,22 @@ export default class ProjectImp extends Vue {
     return gatewaysModule.filterGatewayId as string;
   }
 
+  get filterProjectId(): string {
+    return projectsModule.filterProjectId as string;
+  }
+
+  get toFilter(): string {
+    return reportsModule.toFilter as string;
+  }
+
+  get fromFilter(): string {
+    return reportsModule.fromFilter as string;
+  }
+
+  @Watch("fromFilter")
+  @Watch("toFilter")
   @Watch("filterGatewayId")
+  @Watch("filterProjectId")
   triggerGetProjectReport(): void {
     this.getProjectReport();
   }
@@ -47,6 +63,9 @@ export default class ProjectImp extends Vue {
     };
     if (this.isFilteredByGateway && this.filterGatewayId)
       data.gatewayId = this.filterGatewayId;
+    if (this.fromFilter) data.from = this.fromFilter;
+    if (this.toFilter) data.to = this.toFilter;
+    console.log(data);
     this.report = await reportsModule.getReport(data);
   }
 
@@ -72,13 +91,13 @@ export default class ProjectImp extends Vue {
     <table v-if="showTable" class="c-project__transaction-table">
       <tr>
         <th>Date</th>
-        <th>Gateway</th>
+        <th v-if="!isFilteredByGateway">Gateway</th>
         <th>Transaction ID</th>
         <th>Amount</th>
       </tr>
       <tr v-for="(transaction, index) in reportsWithGateway" :key="index">
         <td>{{ replaceHyphens(transaction.created) }}</td>
-        <td>{{ transaction.gatewayName }}</td>
+        <td v-if="!isFilteredByGateway">{{ transaction.gatewayName }}</td>
         <td>{{ transaction.paymentId }}</td>
         <td>{{ transaction.amount }}</td>
       </tr>

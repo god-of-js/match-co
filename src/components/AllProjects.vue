@@ -15,7 +15,7 @@ export default class AllProjects extends Vue {
   }
 
   get projects(): Project[] {
-    const projects = projectsModule.isFilteredByProduct
+    const projects = projectsModule.isFilteredByProject
       ? this.filteredProjects
       : projectsModule.projects;
     return projects;

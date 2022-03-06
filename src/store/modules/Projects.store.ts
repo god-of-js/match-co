@@ -5,24 +5,24 @@ import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 @Module
 class ProjectsModule extends VuexModule {
   projects: Project[] = [];
-  isFilteredByProduct = false;
-  filterProductId: string | null = null;
+  isFilteredByProject = false;
+  filterProjectId: string | null = null;
 
   get filteredProjects(): Project[] {
     const projects = projectsModule.projects?.filter(
-      (project) => project.projectId === this.filterProductId
+      (project) => project.projectId === this.filterProjectId
     );
     return projects;
   }
 
   @Mutation
-  setIsFilteredByProduct(param: boolean) {
-    this.isFilteredByProduct = param;
+  setIsFilteredByProject(param: boolean) {
+    this.isFilteredByProject = param;
   }
 
   @Mutation
-  setFilterProductId(param: string) {
-    this.filterProductId = param;
+  setFilterProjectId(param: string) {
+    this.filterProjectId = param;
   }
 
   @Mutation

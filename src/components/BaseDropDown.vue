@@ -41,7 +41,7 @@ export default class BaseDropDown extends Vue {
   display: inline-block;
   &__content {
     position: absolute;
-    background-color: white;
+    background-color: $white;
     min-width: 160px;
     max-width: 360px;
     overflow: auto;

@@ -15,32 +15,41 @@ export default class ReportActions extends Vue {
   };
   projectsTitle = "All Projects";
   gatewaysTitle = "All gateways";
+  from = "From date";
+  to = "To date";
   get projects(): Project[] {
     return projectsModule.projects as Project[];
   }
 
   get gateways(): GateWay[] {
-    console.log(gatewaysModule.gateways, "gateways");
     return gatewaysModule.gateways;
   }
 
-  setProjectsData(param: Project): void {
+  private setProjectsData(param: Project): void {
     this.data.projectId = param.projectId;
     this.projectsTitle = param.name;
     this.getProjectData();
-    projectsModule.setIsFilteredByProduct(true);
-    projectsModule.setFilterProductId(param.projectId);
+    projectsModule.setIsFilteredByProject(true);
+    projectsModule.setFilterProjectId(param.projectId);
   }
 
-  setGatewaysData(param: GateWay): void {
+  private setGatewaysData(param: GateWay): void {
     this.data.gatewayId = param.gatewayId;
     this.gatewaysTitle = param.name;
     this.getProjectData();
     gatewaysModule.setIsFilteredByGateway(true);
     gatewaysModule.setFilterGateWayId(param.gatewayId);
   }
+  private setFrom(e: string) {
+    this.from = e;
+    reportsModule.setFromFilter(e);
+  }
 
-  async getProjectData(): Promise<void> {
+  private setTo(e: string) {
+    this.to = e;
+    reportsModule.setToFilter(e);
+  }
+  private async getProjectData(): Promise<void> {
     await reportsModule.getReport(this.data);
   }
 }
@@ -66,14 +75,14 @@ export default class ReportActions extends Vue {
         ><span>{{ gatewaysTitle }}</span>
         <img src="@/assets/caret-down.svg" alt="caret down" class="ml-6"
       /></base-drop-down>
-      <base-drop-down class="ml-6" :dropDownData="projects"
-        ><span>From date</span>
+      <base-date-picker class="ml-6" @getData="setFrom"
+        ><span>{{ from }}</span>
         <img src="@/assets/calendar.svg" alt="caret down" class="ml-6"
-      /></base-drop-down>
-      <base-drop-down class="ml-6" :dropDownData="projects"
-        ><span>To date</span>
+      /></base-date-picker>
+      <base-date-picker class="ml-6" @getData="setTo"
+        ><span>{{ to }}</span>
         <img src="@/assets/calendar.svg" alt="caret down" class="ml-6"
-      /></base-drop-down>
+      /></base-date-picker>
       <base-button
         class="ml-6"
         variant="secondary"
