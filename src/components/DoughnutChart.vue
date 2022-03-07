@@ -9,13 +9,13 @@ export default {
       required: true,
       type: Object,
     },
-    options: {
-      required: true,
-      type: Object,
-    },
+    // options: {
+    //   required: true,
+    //   type: Object,
+    // },
   },
   mounted() {
-    // this.renderChart(this.chartData);
+    this.renderChart(this.chartData);
   },
 };
 </script>

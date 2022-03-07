@@ -13,7 +13,7 @@ import { Project } from "@/types/interfaces";
   },
 })
 export default class Reports extends Vue {
-  private isReportGraphVisible = true;
+  private isReportGraphVisible = false;
   get projects(): Project[] {
     return projectsModule.projects as Project[];
   }
@@ -30,12 +30,24 @@ export default class Reports extends Vue {
 <template>
   <div>
     <report-actions @generateReport="generateReport" />
-    <no-reports v-if="!projects || projects.length === 0" />
-    <all-projects v-else />
-    <report-graph v-if="isReportGraphVisible" />
+    <div class="u-flex">
+      <div class="reports__content">
+        <no-reports v-if="!projects || projects.length === 0" />
+        <all-projects v-else />
+      </div>
+      <report-graph v-if="isReportGraphVisible" class="reports__graph" />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @import "@/styles";
+.reports {
+  &__content {
+    width: 100%;
+  }
+  &__graph {
+    width: 100%;
+  }
+}
 </style>

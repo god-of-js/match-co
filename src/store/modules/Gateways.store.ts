@@ -8,6 +8,12 @@ class GatewaysModule extends VuexModule {
   isFilteredByGateway = false;
   filterGatewayId: string | null = null;
 
+  get gateway(): GateWay | undefined {
+    const data = this.gateways.find(
+      (gateway) => gateway.gatewayId === this.filterGatewayId
+    );
+    return data;
+  }
   @Mutation
   setIsFilteredByGateway(param: boolean) {
     this.isFilteredByGateway = param;

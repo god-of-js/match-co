@@ -2,6 +2,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { projectsModule } from "@/store/modules/Projects.store";
 import { Project } from "@/types/interfaces";
+import { gatewaysModule } from "@/store/modules/Gateways.store";
 
 @Component({
   name: "AllProjects",
@@ -10,22 +11,35 @@ import { Project } from "@/types/interfaces";
   },
 })
 export default class AllProjects extends Vue {
-  get filteredProjects(): Project[] {
-    return projectsModule.filteredProjects;
-  }
-
   get projects(): Project[] {
-    const projects = projectsModule.isFilteredByProject
+    const projects = this.isFilteredByProject
       ? this.filteredProjects
       : projectsModule.projects;
     return projects;
+  }
+  get filteredProjects(): Project[] {
+    return projectsModule.filteredProjects;
+  }
+  get isFilteredByProject(): boolean {
+    return projectsModule.isFilteredByProject;
+  }
+  get isFilteredByGateway(): boolean {
+    return gatewaysModule.isFilteredByGateway;
+  }
+  get gatewayName(): string | null {
+    const name = gatewaysModule.gateway?.name;
+    if (name) return name;
+    else return null;
   }
 }
 </script>
 
 <template>
   <div class="c-all-projects">
-    <h2 class="c-all-projects__title">All projects | All gateways</h2>
+    <h2 class="c-all-projects__title">
+      {{ isFilteredByProject ? filteredProjects[0].name : "All projects" }} |
+      {{ isFilteredByGateway ? gatewayName : "All gateways" }}
+    </h2>
     <project
       v-for="(project, index) in projects"
       :key="index"

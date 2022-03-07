@@ -9,17 +9,13 @@ import { Component, Vue } from "vue-property-decorator";
 })
 export default class ReportGraph extends Vue {
   chartData = {
-    labels: [1, 5],
+    labels: ["Project 1", "Project 2"],
     datasets: [
       {
-        label: "Data One",
-        backgroundColor: "#f87979",
-        data: [60, 90],
-      },
-      {
-        label: "Data One",
-        backgroundColor: "#f87979",
-        data: [100, 50],
+        label: "My First Dataset",
+        data: [60, 40],
+        backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
+        hoverOffset: 4,
       },
     ],
   };
@@ -27,7 +23,7 @@ export default class ReportGraph extends Vue {
 </script>
 
 <template>
-  <div class="c-report-graph u-flex u-justify-between u-items-center">
+  <div class="c-report-graph u-flex u-justify-center u-items-center">
     <doughnut-chart :chartData="chartData" />
   </div>
 </template>

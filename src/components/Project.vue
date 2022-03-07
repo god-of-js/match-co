@@ -61,11 +61,11 @@ export default class ProjectImp extends Vue {
     const data: ReportRequestData = {
       projectId: this.project.projectId,
     };
-    if (this.isFilteredByGateway && this.filterGatewayId)
+    if (this.isFilteredByGateway && this.filterGatewayId) {
       data.gatewayId = this.filterGatewayId;
+    }
     if (this.fromFilter) data.from = this.fromFilter;
     if (this.toFilter) data.to = this.toFilter;
-    console.log(data);
     this.report = await reportsModule.getReport(data);
   }
 
