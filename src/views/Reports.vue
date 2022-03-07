@@ -14,15 +14,24 @@ import { Project } from "@/types/interfaces";
 })
 export default class Reports extends Vue {
   private isReportGraphVisible = false;
+  private loading = true;
+
   get projects(): Project[] {
     return projectsModule.projects as Project[];
+  }
+  get hasProjects(): boolean {
+    return !this.loading && this.projects && this.projects.length > 0;
   }
   private generateReport(): void {
     this.isReportGraphVisible = !this.isReportGraphVisible;
   }
   mounted(): void {
-    projectsModule.getProjects();
-    gatewaysModule.getGateways();
+    Promise.all([
+      projectsModule.getProjects(),
+      gatewaysModule.getGateways(),
+    ]).then(() => {
+      this.loading = false;
+    });
   }
 }
 </script>
@@ -32,8 +41,9 @@ export default class Reports extends Vue {
     <report-actions @generateReport="generateReport" />
     <div class="u-flex">
       <div class="reports__content">
-        <no-reports v-if="!projects || projects.length === 0" />
-        <all-projects v-else />
+        <all-projects v-if="hasProjects" />
+        <div v-else-if="loading">Loading....</div>
+        <no-reports v-else />
       </div>
       <report-graph v-if="isReportGraphVisible" class="reports__graph" />
     </div>

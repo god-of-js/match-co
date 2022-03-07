@@ -32,11 +32,12 @@ export default class ReportGraph extends Vue {
 <style scoped lang="scss">
 @import "@/styles";
 .c-report-graph {
+  padding: 10px;
   &__price {
     background: $light-blue;
     border-radius: 10px;
     padding: 15px;
-    margin-top: 20px;
+    margin: 20px;
     font-size: 16px;
     text-align: left;
     font-weight: 700;

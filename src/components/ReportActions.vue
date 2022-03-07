@@ -18,11 +18,21 @@ export default class ReportActions extends Vue {
   from = "From date";
   to = "To date";
   get projects(): Project[] {
-    return projectsModule.projects as Project[];
+    return projectsModule.projects;
   }
 
   get gateways(): GateWay[] {
     return gatewaysModule.gateways;
+  }
+
+  private setFrom(e: string) {
+    this.from = e;
+    reportsModule.setFromFilter(e);
+  }
+
+  private setTo(e: string) {
+    this.to = e;
+    reportsModule.setToFilter(e);
   }
 
   private setProjectsData(param: Project): void {
@@ -39,15 +49,6 @@ export default class ReportActions extends Vue {
     this.getProjectData();
     gatewaysModule.setIsFilteredByGateway(true);
     gatewaysModule.setFilterGateWayId(param.gatewayId);
-  }
-  private setFrom(e: string) {
-    this.from = e;
-    reportsModule.setFromFilter(e);
-  }
-
-  private setTo(e: string) {
-    this.to = e;
-    reportsModule.setToFilter(e);
   }
   private async getProjectData(): Promise<void> {
     await reportsModule.getReport(this.data);

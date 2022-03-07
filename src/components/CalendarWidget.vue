@@ -28,7 +28,7 @@ export default class CalendarWidget extends Vue {
   get today(): string {
     return dayjs().format("YYYY-MM-DD");
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   get days(): any[] {
     return [
       ...this.previousMonthDays,
@@ -49,7 +49,6 @@ export default class CalendarWidget extends Vue {
     return dayjs(this.selectedDate).daysInMonth();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get currentMonthDays(): any[] {
     return [...Array(this.numberOfDaysInMonth)].map((day, index) => {
       return {
@@ -61,7 +60,6 @@ export default class CalendarWidget extends Vue {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get previousMonthDays(): any[] {
     const firstDayOfTheMonthWeekday = this.getWeekday(
       this.currentMonthDays[0].date
@@ -71,7 +69,6 @@ export default class CalendarWidget extends Vue {
       "month"
     );
 
-    // Cover first day of the month being sunday (firstDayOfTheMonthWeekday === 0)
     const visibleNumberOfDaysFromPreviousMonth = firstDayOfTheMonthWeekday
       ? firstDayOfTheMonthWeekday - 1
       : 6;
@@ -96,7 +93,6 @@ export default class CalendarWidget extends Vue {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get nextMonthDays(): any[] {
     const lastDayOfTheMonthWeekday = this.getWeekday(
       `${this.year}-${this.month}-${this.currentMonthDays.length}`
