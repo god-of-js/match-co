@@ -23,13 +23,24 @@ export default class ReportGraph extends Vue {
 </script>
 
 <template>
-  <div class="c-report-graph u-flex u-justify-center u-items-center">
+  <div class="c-report-graph u-flex u-justify-center u-items-center u-flex-col">
     <doughnut-chart :chartData="chartData" />
+    <div class="c-report-graph__price">GATEWAY TOTAL: 14,065 USD</div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @import "@/styles";
 .c-report-graph {
+  &__price {
+    background: $light-blue;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: left;
+    font-weight: 700;
+    width: 100%;
+  }
 }
 </style>

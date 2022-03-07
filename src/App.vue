@@ -63,4 +63,7 @@ export default class App extends Vue {}
 .u-justify-center {
   justify-content: center;
 }
+.u-flex-col {
+  flex-direction: column;
+}
 </style>

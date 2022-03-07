@@ -18,7 +18,7 @@ export default class Reports extends Vue {
     return projectsModule.projects as Project[];
   }
   private generateReport(): void {
-    this.isReportGraphVisible = true;
+    this.isReportGraphVisible = !this.isReportGraphVisible;
   }
   mounted(): void {
     projectsModule.getProjects();
