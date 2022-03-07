@@ -1,25 +1,30 @@
 <script lang="ts">
-import { GateWay, Project } from "@/types/interfaces";
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { mixin as clickaway } from "vue-clickaway";
+import { GateWay, Project } from "@/types/interfaces";
 @Component({
   name: "BaseDropDown",
+  mixins: [clickaway],
 })
 export default class BaseDropDown extends Vue {
   @Prop({ required: true }) dropDownData!: Project | GateWay[];
   private isDropDownVisible = false;
-  private toggleDropDown(): void {
-    this.isDropDownVisible = !this.isDropDownVisible;
+  private showDropDown(): void {
+    this.isDropDownVisible = true;
+  }
+  private hideDropDown(): void {
+    this.isDropDownVisible = false;
   }
   private handleClick(data: unknown) {
     this.$emit("getData", data);
-    this.toggleDropDown();
+    this.hideDropDown();
   }
 }
 </script>
 
 <template>
-  <div class="c-base-drop-down">
-    <base-button @click="toggleDropDown"><slot /></base-button>
+  <div class="c-base-drop-down" v-on-clickaway="hideDropDown">
+    <base-button @click="showDropDown"><slot /></base-button>
     <ul v-if="isDropDownVisible" class="c-base-drop-down__content">
       <li
         class="c-base-drop-down__content__item"

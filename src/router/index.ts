@@ -12,9 +12,6 @@ const routes: Array<RouteConfig> = [
     path: "/",
     component: Reports,
     name: "Reports",
-    meta: {
-      sideBarSignal: "Reports",
-    },
   },
 ];
 
