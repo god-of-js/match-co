@@ -17,7 +17,7 @@ export default class Reports extends Vue {
   private loading = true;
 
   get projects(): Project[] {
-    return projectsModule.projects as Project[];
+    return projectsModule.projects;
   }
   get hasProjects(): boolean {
     return !this.loading && this.projects && this.projects.length > 0;
